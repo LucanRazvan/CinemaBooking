@@ -1,0 +1,73 @@
+﻿@model IEnumerable<CinemaBooking.Models.DBObjects.Reservation>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> _userManager
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="~/css/Movie_page.css" />
+<div class="background"></div>
+<table class="table" style="color:white;top:20%;border-spacing:0 2rem;border-collapse:separate">
+    <tbody>
+@foreach (var item in Model) {
+            <tr>
+                @{
+                    var user = await _userManager.FindByIdAsync(item.UserId.ToString());
+                    var userName = user.UserName;
+                }
+                @if (User.IsInRole("Admin"))
+                {
+                    <td style="justify-items:center">
+                        @userName
+                        <br />
+                        <p>@Html.DisplayFor(modelItem => item.Screening.Movie.Title)</p>
+                        <img src="@item.Screening.Movie.ImgURL" class="image" />
+                    </td>
+                }
+                else
+                {
+                    <td style="justify-items:center">
+                        <p>@Html.DisplayFor(modelItem => item.Screening.Movie.Title)</p>
+                        <img src="@item.Screening.Movie.ImgURL" class="image" />
+                    </td>
+                }
+            <td>
+                <div style="margin-top:50%;height:max-content;width:max-content;justify-items:center">
+                <p>Nuber of seats:</p>
+                <p>@Html.DisplayFor(modelItem => item.NumberOfSeats)</p>
+                <p>Reserved seats:</p>
+                    <ul>
+                    @foreach(var seat in item.ReservedSeats){
+                        <li>@seat.SeatNumber</li>
+                    }
+                    </ul>
+                    </div>
+                </td>
+                <td>
+                    <div style="margin-top:50%;height:max-content;width:max-content;justify-items:center">
+                    <p>Cinema name:</p>
+                    <p>@Html.DisplayFor(modelItem => item.Screening.Hall.Cinema.Name)</p>
+                    <p>City:</p>
+                    <p>@Html.DisplayFor(modelItem => item.Screening.Hall.Cinema.City)</p>
+                    <p>Hall number:</p>
+                    <p>@Html.DisplayFor(modelItem => item.Screening.Hall.HallNumber)</p>
+                    </div>
+                </td>
+                <td>
+                    <div style="margin-top:50%;height:max-content;width:max-content;justify-items:center">
+                <p>Screening time:</p>
+                <p>@Html.DisplayFor(modelItem => item.Screening.ScreeningTime)</p>
+                </div>
+            </td>
+                <td>
+                    <div style="margin-top:50%;height:max-content;width:max-content;justify-items:center">
+                    <p>Price:</p>
+                    <p>@Html.DisplayFor(modelItem => item.Screening.Price) Lei</p>
+                        <a class="btn butondelete" asp-action="Delete" asp-route-reservationId="@item.ReservationId">Cancel reservation</a>
+                    </div>
+                </td>
+        </tr>
+}
+    </tbody>
+</table>

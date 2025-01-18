@@ -1,0 +1,46 @@
+﻿@model IEnumerable<CinemaBooking.Models.DBObjects.Cinema>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="~/css/Movie_page.css" />
+<div class="background"></div>
+
+<a class="buton" style="top:11%;position:absolute" asp-action="InsertCinema">Create New</a>
+<br /><br />
+<table class="table" style="color:white;border-spacing:0 2rem;border-collapse:separate">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr style="height:5rem">
+            <td style="align-content:center">
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+                <td style="align-content:center">
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+                <td style="align-content:center">
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+                <td style="align-content:center">
+                <a class="buton" asp-action="Index" asp-controller="Halls" asp-route-cinemaId="@item.CinemaId">See the halls</a>
+                <a class="buton" asp-action="Edit" asp-route-id="@item.CinemaId">Edit</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

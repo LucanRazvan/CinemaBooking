@@ -1,0 +1,39 @@
+﻿@model IEnumerable<CinemaBooking.Models.DBObjects.Hall>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="~/css/Movie_page.css" />
+<div class="background"></div>
+
+<a class="buton" style="top:11%;position:absolute" asp-action="InsertHall" asp-route-cinemaId="@ViewBag.CinemaID">Create New</a>
+<br /><br />
+<table class="table" style="color:white;border-spacing:0 2rem;border-collapse:separate">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.HallNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Capacity)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr style="height:5rem">
+            <td style="align-content:center;justify-content:center">
+                @Html.DisplayFor(modelItem => item.HallNumber)
+            </td>
+                <td style="align-content:center;justify-content:center">
+                @Html.DisplayFor(modelItem => item.Capacity)
+            </td>
+                <td style="align-content:center;justify-content:center">
+                <a class="buton" asp-action="Edit" asp-route-id="@item.HallId">Edit</a>
+                <a class="butondelete" asp-action="Delete" asp-route-id="@item.HallId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

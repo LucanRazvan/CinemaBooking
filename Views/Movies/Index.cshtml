@@ -1,0 +1,60 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<CinemaBooking.Models.DBObjects.Movie>
+@inject SignInManager<IdentityUser> SignInManager
+
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="~/css/Movie_page.css" />
+<div class="background"></div>
+@if (User.IsInRole("Admin"))
+{
+    <a class="buton" style="top:0.6%;position:absolute" asp-action="InsertMovie">Insert a movie</a>
+    <br /><br />
+}
+<table class="table" style="border-spacing:0 2rem;border-collapse:separate">
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="@item.ImgURL" class="image"/>
+                    <br />
+                    <p class="title">@Html.DisplayFor(modelItem => item.Title)</p>
+                </td>
+                <td>
+                    <p class="description">Description:<br />
+                    @Html.DisplayFor(modelItem => item.Description)</p>
+                    <br />
+                    <p class="durationinminutes">Duration in minutes:
+                    @Html.DisplayFor(modelItem => item.DurationMinutes)</p>
+                    <br />
+                    <p class="releasedate">Release date:
+                    @Html.DisplayFor(modelItem => item.ReleaseDate)</p>
+                </td>
+            </tr>
+            <tr style="height:5rem;align-content:center">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <td style="position:relative;top:50%;transform:translate(0,-30%)">
+                        <a class="buton" asp-route-id="@item.MovieId" asp-controller="Movies" asp-action="Edit">Edit</a>
+                        <a class="butondelete" asp-route-id="@item.MovieId" asp-controller="Movies" asp-action="Delete">Delete</a>
+                        </td>
+                    }
+                <td style="position:relative;top:50%;transform:translate(0,-30%)" colspan="2">
+                    <a class="buton" asp-route-movieId="@item.MovieId" asp-controller="Screenings" asp-action="Index">See the Screenings</a>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <a class="buton" asp-route-movieId="@item.MovieId" asp-controller="FavouriteMovies" asp-action="AddToWatchList">Add to watchlist</a>
+                    }
+                    else
+                    {
+                        <a class="buton" asp-area="Identity" asp-page="/Account/Login">Add to watchlist</a>
+                    }
+                    </td>
+            </tr>
+        }
+    </tbody>
+</table>

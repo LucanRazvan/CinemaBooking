@@ -1,0 +1,35 @@
+﻿@model CinemaBooking.Models.DBObjects.ReservedSeat
+
+@{
+    ViewData["Title"] = "InsertReservedSeat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="background"></div>
+<div class="tile">
+
+    <h1 style ="position:absolute;left:50%;transform:translate(-50%,0);color:white">Are you sure of the seats numbers?</h1>
+    <br /><br /><br /><br /><br /><br />
+<div class="row">
+    <div class="col-md-4">
+            <section style="position:absolute;left:50%;transform:translate(-50%,0);width:50%">
+        <form asp-action="InsertReservedSeat">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="ReservationId" class ="form-control" value="@ViewBag.ReservationID" hidden/>
+            </div>
+            <div class="form-group">
+                        <label class="form-label" style="color:white">Selected Seats</label>
+                <input type="text" readonly value="@ViewBag.SelectedSeats" class="form-control" id="Selected_seats" name="Selected_seats"/>
+            </div>
+            <div class="form-group">
+                        <input type="submit" value="Select" class="btn btn-primary buton_log_in" style="left:50%;position:relative;transform:translate(-50%,0)" />
+            </div>
+        </form>
+        </section>
+    </div>
+</div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

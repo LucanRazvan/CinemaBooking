@@ -1,0 +1,54 @@
+﻿@model IEnumerable<CinemaBooking.Models.DBObjects.FavouriteMovie>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="~/css/Movie_page.css" />
+<div class="background"></div>
+
+<table class="table" style="color:white;border-spacing:0 2rem;border-collapse:separate">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie.ImgURL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie.DurationMinutes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie.ReleaseDate)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td style="align-content:center;justify-content:center">
+                    @Html.DisplayFor(modelItem => item.Movie.Title)
+                </td>
+                <td>
+                    <img src="@item.Movie.ImgURL" class="image" style="width:max-content"/>
+                </td>
+                <td style="align-content:center;justify-content:center">
+                    @Html.DisplayFor(modelItem => item.Movie.Description)
+                </td>
+                <td style="align-content:center;justify-content:center">
+                    @Html.DisplayFor(modelItem => item.Movie.DurationMinutes)
+                </td>
+                <td style="align-content:center;justify-content:center">
+                    @Html.DisplayFor(modelItem => item.Movie.ReleaseDate)
+                </td>
+                <td style="align-content:center;justify-content:center">
+                <a class="butondelete" asp-action="Delete" asp-route-favouriteId="@item.FavouriteId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

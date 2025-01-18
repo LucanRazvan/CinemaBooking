@@ -1,0 +1,105 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<CinemaBooking.Models.DBObjects.Screening>
+@inject SignInManager<IdentityUser> SignInManager
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="~/css/Movie_page.css" />
+<style>
+    td>p{
+        position:absolute;
+        top:50%;
+        transform:translate(0,-50%);
+    }
+</style>
+<div class="background"></div>
+@if(User.IsInRole("Admin")){
+    <a class="btn buton"  asp-action="InsertScreening" asp-route-movieId="@ViewBag.MovieID">Create New</a>
+}
+@if(Model.Count()!=0){
+<div class="container" style="color:white">
+    <div style="display:flex;flex-direction:row"><div>
+            <p style="font-size:2rem">@Html.DisplayFor(model=>model.FirstOrDefault().Movie.Title)</p>
+            <p><img src="@Model.FirstOrDefault().Movie.ImgURL"/></p>
+        </div>
+        <div style="top:30%;font-size:1.5rem">
+            <br /><br />
+            <p>Movie Description:@Html.DisplayFor(model=>model.FirstOrDefault().Movie.Description)</p>
+            <p>Movie length in minutes:@Html.DisplayFor(model=>model.FirstOrDefault().Movie.DurationMinutes)</p>
+            <p>Movie Release date:@Html.DisplayFor(model=>model.FirstOrDefault().Movie.ReleaseDate)</p>
+            </div>
+            </div>
+</div>
+}
+<table class="table" style="width:100%;color:white;border:none;border-spacing:0 2rem;border-collapse:separate">
+    <thead style="border:none">
+        <tr style="border:none">
+            <th  style="border:none">
+                @Html.DisplayNameFor(model => model.ScreeningTime)
+            </th>
+            <th style="border:none">
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th style="border:none">
+                @Html.DisplayNameFor(model => model.Hall.HallNumber)
+            </th>
+            <th style="border:none">
+                @Html.DisplayNameFor(model => model.Hall.Capacity)
+            </th>
+            <th style="border:none">
+                @Html.DisplayNameFor(model=>model.Hall.Cinema.Name)
+            </th>
+            <th style="border:none">
+                @Html.DisplayNameFor(model => model.Hall.Cinema.Address)
+            </th>
+            <th style="border:none">
+                @Html.DisplayNameFor(model => model.Hall.Cinema.City)
+            </th>
+        </tr>
+    </thead>
+    <tbody style="border:none">
+@foreach (var item in Model) {
+            <tr style="border:none;text-align:center">
+            <td>
+                <p>@Html.DisplayFor(modelItem => item.ScreeningTime)</p>
+            </td>
+            <td>
+                <p>@Html.DisplayFor(modelItem => item.Price)Lei</p>
+            </td>
+            <td>
+                <p>@Html.DisplayFor(modelItem => item.Hall.HallNumber)</p>
+            </td>
+            <td>
+                <p>@Html.DisplayFor(modelItem => item.Hall.Capacity)</p>
+            </td>
+            <td>
+                <p>@Html.DisplayFor(modelItem => item.Hall.Cinema.Name)</p>
+            </td>
+            <td>
+                <p style="width:contain">@Html.DisplayFor(modelItem => item.Hall.Cinema.Address)</p>
+            </td>
+            <td>
+                <p>@Html.DisplayFor(modelItem => item.Hall.Cinema.City)</p>
+            </td>
+            <td>
+                @if (User.IsInRole("Admin"))
+                {
+                        <a class="btn buton" asp-action="Edit" asp-route-id="@item.ScreeningId">Edit</a>
+                        <a class="btn butondelete" asp-action="Delete" asp-route-id="@item.ScreeningId">Delete</a>
+                }
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <a class="btn buton" asp-controller="Reservation" asp-action="InsertReservation" asp-route-screeningId="@item.ScreeningId">Book a ticket</a>
+                    }
+                    else
+                    {
+                        <a class="btn buton" asp-area="Identity" asp-page="/Account/Login">Book a ticket</a>
+                    }
+                </td>
+            </tr>
+}
+    <a asp-action="Index" asp-controller="Movies" class="btn buton">Back to Movies</a>
+    </tbody>
+</table>

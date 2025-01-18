@@ -1,0 +1,30 @@
+{
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConnectionStrings_DefaultConnection": "Data Source=DESKTOP-PB9D662\\SQLEXPRESS;Initial Catalog=CinemaBooking;Integrated Security=True;Multiple Active Result Sets=True;Trust Server Certificate=True"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5064"
+    },
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  },
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:26758",
+      "sslPort": 0
+    }
+  }
+}
